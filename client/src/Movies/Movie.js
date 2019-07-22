@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 
-const Movie = (props) => {
+const Movie = ({props}) => {
   const [movie, setMovie] = useState({});
- 
+  
+  const id = props.movie.id;
   useEffect(() => {
-    const id = 1;
     // change ^^^ that line and grab the id from the URL
     // You will NEED to add a dependency array to this effect hook
-
        axios
         .get(`http://localhost:5000/api/movies/${id}`)
         .then(response => {
@@ -18,7 +18,7 @@ const Movie = (props) => {
           console.error(error);
         });
 
-  },[]);
+  },[id]);
   
   // Uncomment this only when you have moved on to the stretch goals
   // const saveMovie = () => {
@@ -30,9 +30,11 @@ const Movie = (props) => {
     return <div>Loading movie information...</div>;
   }
 
-  const { title, director, metascore, stars } = movie;
+  const { title, director, metascore, stars} = movie;
+
   return (
     <div className="save-wrapper">
+    <Link to = {`/movies/${id}`} > 
       <div className="movie-card">
         <h2>{title}</h2>
         <div className="movie-director">
@@ -50,6 +52,7 @@ const Movie = (props) => {
         ))}
       </div>
       <div className="save-button">Save</div>
+      </Link>
     </div>
   );
 }
